@@ -8,11 +8,14 @@
     "scheme": "unfollower",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
+    "description": "Compare your Instagram followers and following to find who doesn't follow you back",
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.unfollower.app"
     },
     "android": {
       "package": "com.unfollower.app",
+      "versionCode": 1,
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
@@ -20,7 +23,8 @@
         "monochromeImage": "./assets/images/android-icon-monochrome.png"
       },
       "edgeToEdgeEnabled": true,
-      "predictiveBackGestureEnabled": false
+      "predictiveBackGestureEnabled": false,
+      "permissions": []
     },
     "web": {
       "output": "static",
