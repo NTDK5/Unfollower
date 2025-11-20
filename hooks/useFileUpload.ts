@@ -1,13 +1,18 @@
 import { InstagramJSON } from '@/types';
 import * as DocumentPicker from 'expo-document-picker';
-import * as FileSystem from 'expo-file-system';
+import * as FileSystem from 'expo-file-system/legacy';
 import { useState } from 'react';
+
+export interface FileUploadResult {
+    data: InstagramJSON;
+    filename: string;
+}
 
 export function useFileUpload(){
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     
-    const pickFile = async(): promise<InstagramJson | null> => {
+    const pickFile = async(): Promise<FileUploadResult | null> => {
         try{
             setLoading(true);
             setError(null)
@@ -21,10 +26,20 @@ export function useFileUpload(){
                 return null;
             }
 
-            const fileUri = result.assets?.[0]?.uri;
+            const fileAsset = result.assets?.[0];
+            if(!fileAsset){
+                return null;
+            }
+
+            const fileUri = fileAsset.uri;
+            const fileName = fileAsset.name || 'file.json';
             const fileContent = await FileSystem.readAsStringAsync(fileUri);
             const jsonData: InstagramJSON = JSON.parse(fileContent);
-            return jsonData;
+            
+            return {
+                data: jsonData,
+                filename: fileName,
+            };
         }catch(err){
             const errorMessage = err instanceof Error ? err.message: 'Failed to read file';
             setError(errorMessage)
